@@ -1,1 +1,5 @@
-PBC_dataset
+PBC_dataset/
+test/
+venv/
+__pycache__/
+.DS_Store

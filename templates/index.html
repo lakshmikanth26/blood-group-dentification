@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Group Prediction</title>
+</head>
+<body>
+    <h1>Upload Image for Blood Group Prediction</h1>
+    
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required><br><br>
+        <button type="submit">Upload and Predict</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+    <script>
+        // Handle form submission via AJAX
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                console.log(data.predicted_blood_group);
+                if (data.predicted_blood_group) {
+                    document.getElementById('result').innerText = 'Predicted Blood Group: ' + data.predicted_blood_group;
+                } else {
+                    document.getElementById('result').innerText = 'Error: ' + data.error;
+                }
+            } catch (error) {
+                document.getElementById('result').innerText = 'An error occurred.';
+            }
+        });
+    </script>
+</body>
+</html>
